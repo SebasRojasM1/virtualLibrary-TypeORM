@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { SalesController } from './models/sales/controllers/sales.controller';
+import { SalesService } from './models/sales/services/sales.service';
+import { Sale } from './models/sales/entities/sale.entity';
 
 
 @Module({
@@ -17,14 +20,14 @@ import { ConfigModule } from '@nestjs/config';
     database: process.env.DB_NAME,
     autoLoadEntities: true,
     synchronize: false,
-    entities: [],  
+    entities: [Sale],  
     extra: {
       ssl: true,
     },
   }),
-  TypeOrmModule.forFeature([]), // Register your entities
+  TypeOrmModule.forFeature([Sale]), // Register your entities
   ,],
-  controllers: [],
-  providers: [],
+  controllers: [SalesController],
+  providers: [SalesService],
 })
 export class AppModule {}
