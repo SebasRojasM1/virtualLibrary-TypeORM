@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { AuthorController } from './models/author/controllers/author.controller';
+import { AuthorService } from './models/author/services/author.service';
 
 
 @Module({
@@ -24,7 +26,7 @@ import { ConfigModule } from '@nestjs/config';
   }),
   TypeOrmModule.forFeature([]), // Register your entities
   ,],
-  controllers: [],
-  providers: [],
+  controllers: [AuthorController],
+  providers: [AuthorService],
 })
 export class AppModule {}
