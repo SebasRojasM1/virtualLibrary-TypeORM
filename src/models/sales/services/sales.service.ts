@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSaleDto } from '../dto/create-sale.dto';
-import { UpdateSaleDto } from '../dto/update-sale.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateSaleDto, UpdateSaleDto } from '../dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { SaleEntity } from '../entities/sale.entity';
 
 @Injectable()
 export class SalesService {
-  create(createSaleDto: CreateSaleDto) {
-    return 'This action adds a new sale';
+  constructor( @InjectRepository(SaleEntity) private readonly saleRepository: Repository<SaleEntity>,) {}
+  
+  async createSale(createSale: CreateSaleDto) {
+    const book = this.saleRepository.create(createSale);
+    return await this.saleRepository.save(book);
   }
 
-  findAll() {
-    return `This action returns all sales`;
+  async fillAllSales() {
+    return await this.saleRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sale`;
+  async findOne(id: string) {
+    const sale = await this.saleRepository.findOneBy({ id });
+
+    if (!sale) throw new NotFoundException(`Sale with id ${id} not found`);
+
+    return sale;
   }
 
-  update(id: number, updateSaleDto: UpdateSaleDto) {
-    return `This action updates a #${id} sale`;
+  async updateSale(id: string, updateSale: UpdateSaleDto): Promise<SaleEntity> {
+    const sale = await this.saleRepository.findOneBy({ id });
+
+    if (!sale) {
+      throw new NotFoundException(`Game with ID ${id} not found`);
+    }
+    await this.saleRepository.update(id, updateSale);
+
+    const updatedSale = await this.saleRepository.findOneBy({ id });
+    if (!updatedSale) {
+      throw new NotFoundException(`Game with ID ${id} not found.`);
+    }
+    return updatedSale;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} sale`;
+  async deleteSale(id: string) {
+    const sale = await this.saleRepository.findOneBy({ id });
+
+    if (!sale) throw new NotFoundException(`Sale with id ${id} not found`);
+
+    return await this.saleRepository.remove(sale);
   }
 }
