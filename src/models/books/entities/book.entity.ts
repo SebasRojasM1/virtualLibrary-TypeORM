@@ -1,16 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Book {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class BookEntity {
+  @PrimaryGeneratedColumn()
+  id: string;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    year: number;
+  @Column()
+  category: string;
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
+
+  @ManyToOne(() => Author, author => author.books)
+  author: Author;
+    
+  @OneToMany(() => Sale, sale => sale.book)
+  sales: Sale[]; 
 }

@@ -1,26 +1,51 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBookDto } from '../dto/create-book.dto';
-import { UpdateBookDto } from '../dto/update-book.dto';
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateBookDto, UpdateBookDto } from '../dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BookEntity } from '../entities/book.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BooksService {
-  create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
+  constructor( @InjectRepository(BookEntity) private readonly bookRepository: Repository<BookEntity>,) {}
+  
+  async createBook(createBook: CreateBookDto) {
+    const book = this.bookRepository.create(createBook);
+    return await this.bookRepository.save(book);
   }
 
-  findAll() {
-    return `This action returns all books`;
+  async fillAllBooks() {
+    return await this.bookRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(id: string) {
+    const book = await this.bookRepository.findOneBy({ id });
+
+    if (!book) throw new NotFoundException(`Book with id ${id} not found`);
+
+    return book;
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async updateBook(id: string, updateBook: UpdateBookDto): Promise<BookEntity> {
+    const book = await this.bookRepository.findOneBy({ id });
+
+    if (!book) {
+      throw new NotFoundException(`Game with ID ${id} not found`);
+    }
+    await this.bookRepository.update(id, updateBook);
+
+    const updatedBook = await this.bookRepository.findOneBy({ id });
+    if (!updatedBook) {
+      throw new NotFoundException(`Game with ID ${id} not found.`);
+    }
+    return updatedBook;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async deleteBook(id: string) {
+    const book = await this.bookRepository.findOneBy({ id });
+
+    if (!book) throw new NotFoundException(`Book with id ${id} not found`);
+
+    return await this.bookRepository.remove(book);
   }
 }
