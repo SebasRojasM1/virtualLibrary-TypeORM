@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { AuthorController } from './models/author/controllers/author.controller';
+import { AuthorService } from './models/author/services/author.service';
+import { AuthorEntity } from './models/author/entities/author.entity';
 import { BookEntity } from './models/books/entities/book.entity';
 import { BooksController } from './models/books/controllers/books.controller';
 import { BooksService } from './models/books/services/books.service';
@@ -19,16 +22,15 @@ import { BooksService } from './models/books/services/books.service';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: false,
-      entities: [BookEntity],
+      synchronize: true,
+      entities: [AuthorEntity, BookEntity],
       extra: {
         ssl: true,
       },
     }),
-    TypeOrmModule.forFeature([BookEntity]), // Register your entities
-    ,
+    TypeOrmModule.forFeature([AuthorEntity, BookEntity]), // Register your entities
   ],
-  controllers: [BooksController],
-  providers: [BooksService],
+  controllers: [AuthorController],
+  providers: [AuthorService],
 })
 export class AppModule {}
