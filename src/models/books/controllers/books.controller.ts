@@ -25,9 +25,11 @@ export class BooksController {
   @ApiResponse({status: 500,description: 'An internal server error occurred while searching for the books.'})
   async findAll() {
     const books = await this.booksService.fillAllBooks();
+
     if (books.length === 0) {
       throw new NotFoundException('No books were found in the system.');
     }
+    
     return books;
   }
 
