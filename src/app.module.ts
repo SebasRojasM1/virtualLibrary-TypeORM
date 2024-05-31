@@ -18,7 +18,7 @@ import { AuthorService } from './models/author/services/author.service';
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     autoLoadEntities: true,
-    synchronize: false,
+    synchronize: true,
     entities: [],  
     extra: {
       ssl: true,
