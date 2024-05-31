@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsInt } from 'class-validator';
 
 export class CreateBookDto {
-  @IsString()
+  @IsNumber()
   @IsOptional()
   id: number;
 
