@@ -33,7 +33,7 @@ import { BooksService } from './models/books/services/books.service';
     }),
     TypeOrmModule.forFeature([AuthorEntity, BookEntity, SaleEntity]), // Register your entities
   ],
-  controllers: [AuthorController, SalesController],
-  providers: [AuthorService, SalesService],
+  controllers: [AuthorController, SalesController, BooksController],
+  providers: [AuthorService, SalesService, BooksService],
 })
 export class AppModule {}
