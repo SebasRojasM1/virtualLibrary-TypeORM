@@ -32,7 +32,7 @@ export class BooksController {
   @ApiResponse({status: 200, description: 'Book found successfully.',})
   @ApiResponse({status: 404, description: 'Book with the entered ID not found.'})
   @ApiResponse({status: 500, description: 'An internal server error occurred while searching for the book.'})
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.booksService.findOne(id);
   }
 
@@ -41,7 +41,7 @@ export class BooksController {
   @ApiResponse({status: 200, description: 'Book updated successfully.'})
   @ApiResponse({status: 404, description: 'Book with the entered ID not found.'})
   @ApiResponse({status: 500, description: 'An internal server error occurred while updating the book.'})
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+  update(@Param('id') id: number, @Body() updateBookDto: UpdateBookDto) {
     return this.booksService.updateBook(id, updateBookDto);
   }
 
@@ -50,7 +50,7 @@ export class BooksController {
   @ApiResponse({status: 200, description: 'Book deleted successfully.'})
   @ApiResponse({status: 404, description: 'Book with the entered ID not found.'})
   @ApiResponse({status: 500, description: 'An internal server error occurred while deleting the book.'})
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.booksService.deleteBook(id);
   }
 }

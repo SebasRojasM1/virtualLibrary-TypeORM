@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateBookDto {
   @IsString()
   @IsOptional()
-  id: string;
+  id: number;
 
   @ApiProperty()
   @IsNotEmpty()
