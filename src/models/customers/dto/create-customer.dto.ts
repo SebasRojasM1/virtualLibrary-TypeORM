@@ -9,6 +9,10 @@ export class CreateCustomerDto {
     @IsNotEmpty()
     name: string;
   
+    @IsString()
+    @IsNotEmpty()
+    lastname: string;
+
     @IsEmail({}, { message: 'The email it´s not valid. Try again.' })
     @IsNotEmpty()
     email: string;
