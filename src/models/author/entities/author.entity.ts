@@ -1,13 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BookEntity } from "src/models/books/entities/book.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class AuthorEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    books: string;
+  @OneToMany(() => BookEntity, book => book.authors)
+  books: BookEntity[];
 }
