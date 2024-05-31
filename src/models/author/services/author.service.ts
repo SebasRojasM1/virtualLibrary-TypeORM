@@ -6,7 +6,8 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthorService {
-  constructor( @InjectRepository(AuthorEntity) private readonly authorRepository: Repository<AuthorEntity>,) {}
+  constructor( @InjectRepository(AuthorEntity) private readonly authorRepository: Repository<AuthorEntity>,
+) {}
   
   async createAuthor(CreateAuthor: CreateAuthorDto) {
     const author = this.authorRepository.create(CreateAuthor);
@@ -34,6 +35,7 @@ export class AuthorService {
     await this.authorRepository.update(id, updateAuthor);
 
     const updatedAuthor = await this.authorRepository.findOneBy({ id });
+    
     if (!updatedAuthor) {
       throw new NotFoundException(`Author with ID ${id} not found.`);
     }
@@ -44,7 +46,7 @@ export class AuthorService {
     const author = await this.authorRepository.findOneBy({ id });
 
     if (!author) throw new NotFoundException(`Author with id ${id} not found`);
-
+    
     return await this.authorRepository.remove(author);
   }
 }

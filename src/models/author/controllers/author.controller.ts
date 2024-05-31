@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, NotFoundException } from '@nestjs/common';
 import { AuthorService } from '../services/author.service';
 import { CreateAuthorDto, UpdateAuthorDto } from '../dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -22,8 +22,15 @@ export class AuthorController {
   @ApiResponse({status: 200, description: 'All authors were found successfully.'})
   @ApiResponse({status: 404, description: 'No authors were found in the system.'})
   @ApiResponse({status: 500,description: 'An internal server error occurred while searching for the authors.'})
-  findAll() {
-    return this.authorService.fillAllAuthors();
+
+  async findAll() {
+    const customer = await this.authorService.fillAllAuthors();
+
+    if (customer.length === 0) {
+      throw new NotFoundException('No authors were found in the system.');
+    }
+    
+    return customer;
   }
 
   @Get(':id')

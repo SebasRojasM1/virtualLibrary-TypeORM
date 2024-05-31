@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AuthorEntity } from '../../author/entities/author.entity';
 import { SaleEntity } from '../../sales/entities/sale.entity';
 
@@ -17,7 +17,8 @@ export class BookEntity {
   description: string;
 
   @ManyToOne(() => AuthorEntity, author => author.books)
-  author: AuthorEntity[];
+  @JoinColumn({ name: 'author_Id' }) 
+  author: AuthorEntity;
 
   @OneToMany(() => SaleEntity, sale => sale.book)
   sales: SaleEntity[];
