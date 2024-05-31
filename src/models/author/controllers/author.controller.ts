@@ -9,7 +9,7 @@ export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
   @Post('/create')
-  @ApiOperation({ summary: 'Create a author to the system.', description: 'Create a author to access the system.' })
+  @ApiOperation({ summary: 'Create an author to the system.', description: 'Create an author to access the system.' })
   @ApiResponse({status: 201, description: 'Author created successfully.'})
   @ApiResponse({status: 400, description: 'The data entered to create the author is invalid.'})
   @ApiResponse({status: 500, description: 'An internal server error occurred while creating the author.'})
@@ -36,7 +36,7 @@ export class AuthorController {
   }
 
   @Put('update/:id')
-  @ApiOperation({ summary: 'Update a author to the system.', description: 'Update a specific author registered in the database.' })
+  @ApiOperation({ summary: 'Update an author to the system.', description: 'Update a specific author registered in the database.' })
   @ApiResponse({status: 200, description: 'Author updated successfully.'})
   @ApiResponse({status: 404, description: 'Author with the entered ID not found.'})
   @ApiResponse({status: 500, description: 'An internal server error occurred while updating the author.'})
@@ -45,7 +45,7 @@ export class AuthorController {
   }
 
   @Delete('delete/:id')
-  @ApiOperation({ summary: 'Delete a author to the system.', description: 'Delete a author of the system.' })
+  @ApiOperation({ summary: 'Delete an author to the system.', description: 'Delete an author of the system.' })
   @ApiResponse({status: 200, description: 'Author deleted successfully.'})
   @ApiResponse({status: 404, description: 'Author with the entered ID not found.'})
   @ApiResponse({status: 500, description: 'An internal server error occurred while deleting the author.'})
