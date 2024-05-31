@@ -20,4 +20,9 @@ export class CreateSaleDto {
   @IsNotEmpty()
   @IsNumber()
   price: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  stock: number
 }

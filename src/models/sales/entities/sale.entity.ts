@@ -13,6 +13,9 @@ export class SaleEntity {
   @Column()
   price: number;
 
+  @Column()
+  stock: number;
+
   @ManyToOne(() => BookEntity, book => book.sales)
   @JoinColumn({ name: 'book_Id' }) 
   book: BookEntity;
