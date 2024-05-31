@@ -9,12 +9,12 @@ export class CustomersController {
 
   @Post()
   create(@Body() createCustomerDto: CreateCustomerDto) {
-    return this.customersService.create(createCustomerDto);
+    return this.customersService.createCustomer(createCustomerDto);
   }
 
   @Get()
   findAll() {
-    return this.customersService.findAll();
+    return this.customersService.findAllCustomers();
   }
 
   @Get(':id')
@@ -23,12 +23,12 @@ export class CustomersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
-    return this.customersService.update(+id, updateCustomerDto);
+  update(@Param('id') id: number, @Body() updateCustomerDto: UpdateCustomerDto) {
+    return this.customersService.updateCustomer(id, updateCustomerDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customersService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.customersService.deleteCustomer(id);
   }
 }

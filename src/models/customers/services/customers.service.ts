@@ -9,20 +9,20 @@ export class CustomersService {
   constructor(
     @InjectRepository(CustomerEntity) private readonly customerRepository: Repository<CustomerEntity>) {}
   
-    async create(CreateCustomer: CreateCustomerDto) {
+    async createCustomer(CreateCustomer: CreateCustomerDto) {
 
-    const existingClient = await this.customerRepository.findOneBy({ email: CreateCustomer.email });
+    const existCustomer = await this.customerRepository.findOneBy({ email: CreateCustomer.email });
 
-    if (existingClient) {
+    if (existCustomer) {
       throw new BadRequestException('Email is in use. Try again.');
     }
 
-    const client = this.customerRepository.create(CreateCustomer);
+    const customer = this.customerRepository.create(CreateCustomer);
 
-    return await this.customerRepository.save(client);
+    return await this.customerRepository.save(customer);
   }
 
-async findAll() {
+async findAllCustomers() {
     return await this.customerRepository.find();
   }
 
@@ -36,25 +36,20 @@ async findAll() {
     return client;;
   }
 
-  async update(id: number, UpdateCustomer: UpdateCustomerDto) {
-    const existclient = await this.customerRepository.findOneBy({ id });
+  async updateCustomer(id: number, updateCustomerDto: UpdateCustomerDto): Promise<CustomerEntity> {
+    const updatedCustomer = await this.customerRepository.preload({
+      id,
+      ...updateCustomerDto,
+    });
 
-    if (!existclient) {
-      throw new NotFoundException('Client not found');
+    if (!updatedCustomer) {
+      throw new NotFoundException('The customer is not found. Try again.');
     }
 
-    await this.customerRepository.update(id, UpdateCustomer);
-    
-    const updatedClient = await this.customerRepository.findOneBy({ id });
-
-    if (!updatedClient) {
-      throw new NotFoundException('Could not find updated client');
-    }
-
-    return updatedClient;
+    return this.customerRepository.save(updatedCustomer);
   }
 
-  async remove(id: number) {
+  async deleteCustomer(id: number) {
     const customer = await this.customerRepository.findOneBy({ id });
 
     if (!customer) {
