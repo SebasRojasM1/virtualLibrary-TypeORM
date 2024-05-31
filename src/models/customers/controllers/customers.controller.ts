@@ -18,7 +18,7 @@ export class CustomersController {
     return this.customersService.createCustomer(createCustomerDto);
   }
 
-  @Get()
+  @Get("all")
   @ApiOperation({ summary: 'Find all the customers of the system.', description: 'View all customers registered in the system.' })
   @ApiResponse({status: 200, description: 'All customers were found successfully.'})
   @ApiResponse({status: 404, description: 'No customers were found in the system.'})
@@ -49,7 +49,7 @@ export class CustomersController {
     return this.customersService.updateCustomer(id, updateCustomerDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   @ApiOperation({ summary: 'Delete a customer to the system.', description: 'Delete a customer of the system.' })
   @ApiResponse({status: 200, description: 'Customer deleted successfully.'})
   @ApiResponse({status: 404, description: 'Customer with the entered ID not found.'})
