@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, NotFoundException, UseGuards } from '@nestjs/common';
 import { SalesService } from '../services/sales.service';
 import { CreateSaleDto, UpdateSaleDto} from '../dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { TimeAccessGuard } from 'src/libs/guard/access-hour/access-hour';
 
 @ApiTags('Sales')
 @Controller('sales')
 export class SalesController {
   constructor(private readonly saleService: SalesService) {}
 
+  @UseGuards(TimeAccessGuard)
   @Post('/create')
   @ApiOperation({ summary: 'Create a sale to the system.', description: 'Create a sale to access the system.' })
   @ApiResponse({status: 201, description: 'sale created successfully.'})
