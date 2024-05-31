@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, NotFoundException} from '@nestjs/common';
 import { BooksService } from '../services/books.service';
 import { CreateBookDto } from '../dto/create-book.dto';
 import { UpdateBookDto } from '../dto/update-book.dto';
@@ -23,8 +23,12 @@ export class BooksController {
   @ApiResponse({status: 200, description: 'All books were found successfully.'})
   @ApiResponse({status: 404, description: 'No books were found in the system.'})
   @ApiResponse({status: 500,description: 'An internal server error occurred while searching for the books.'})
-  findAll() {
-    return this.booksService.fillAllBooks();
+  async findAll() {
+    const books = await this.booksService.fillAllBooks();
+    if (books.length === 0) {
+      throw new NotFoundException('No books were found in the system.');
+    }
+    return books;
   }
 
   @Get(':id')
