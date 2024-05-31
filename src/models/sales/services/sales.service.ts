@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSaleDto, UpdateSaleDto } from '../dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SaleEntity } from '../entities/sale.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SalesService {
@@ -16,7 +17,7 @@ export class SalesService {
     return await this.saleRepository.find();
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const sale = await this.saleRepository.findOneBy({ id });
 
     if (!sale) throw new NotFoundException(`Sale with id ${id} not found`);
@@ -24,7 +25,7 @@ export class SalesService {
     return sale;
   }
 
-  async updateSale(id: string, updateSale: UpdateSaleDto): Promise<SaleEntity> {
+  async updateSale(id: number, updateSale: UpdateSaleDto): Promise<SaleEntity> {
     const sale = await this.saleRepository.findOneBy({ id });
 
     if (!sale) {
@@ -39,7 +40,7 @@ export class SalesService {
     return updatedSale;
   }
 
-  async deleteSale(id: string) {
+  async deleteSale(id: number) {
     const sale = await this.saleRepository.findOneBy({ id });
 
     if (!sale) throw new NotFoundException(`Sale with id ${id} not found`);
