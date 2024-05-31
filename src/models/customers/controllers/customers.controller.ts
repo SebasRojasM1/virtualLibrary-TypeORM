@@ -26,7 +26,7 @@ export class CustomersController {
   async findAll() { 
     const customer = await this.customersService.findAllCustomers();
     if (customer.length === 0) {
-      throw new NotFoundException('No customer were found in the system.');
+      throw new NotFoundException('No customers were found in the system.');
     }
     return customer;
   }
